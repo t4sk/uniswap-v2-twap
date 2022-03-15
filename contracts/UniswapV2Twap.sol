@@ -14,7 +14,7 @@ contract UniswapV2Twap {
 
     uint public constant PERIOD = 10;
 
-    IUniswapV2Pair immutable pair;
+    IUniswapV2Pair public immutable pair;
     address public immutable token0;
     address public immutable token1;
 
