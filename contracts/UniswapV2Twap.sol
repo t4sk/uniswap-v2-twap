@@ -10,7 +10,6 @@ import "@uniswap/v2-periphery/contracts/libraries/UniswapV2OracleLibrary.sol";
 import "@uniswap/v2-periphery/contracts/libraries/UniswapV2Library.sol";
 
 contract UniswapV2Twap {
-    // TODO: what does this do?
     using FixedPoint for *;
 
     uint public constant PERIOD = 10;
@@ -52,7 +51,7 @@ contract UniswapV2Twap {
         /*
         |----b-------------------------a---------|
         0                                     2**256 - 1
-        
+
         b - a is preserved even if b overflows
         */
         // TODO: what does casting never truncates mean?

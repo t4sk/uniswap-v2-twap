@@ -9,3 +9,4 @@ cache
 artifacts
 
 package-lock.json
+.secret
