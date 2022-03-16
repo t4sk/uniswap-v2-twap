@@ -22,7 +22,9 @@ contract UniswapV2Twap {
     uint public price1CumulativeLast;
     uint32 public blockTimestampLast;
 
-    // TODO: what is uq112x112
+    // NOTE: binary fixed point numbers
+    // range: [0, 2**112 - 1]
+    // resolution: 1 / 2**112
     FixedPoint.uq112x112 public price0Average;
     FixedPoint.uq112x112 public price1Average;
 
@@ -54,7 +56,11 @@ contract UniswapV2Twap {
 
         b - a is preserved even if b overflows
         */
-        // TODO: what does casting never truncates mean?
+        // NOTE: uint -> uint224 cuts off the bits above uint224
+        // max uint
+        // 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+        // max uint244
+        // 0x00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff
         price0Average = FixedPoint.uq112x112(
             uint224((price0Cumulative - price0CumulativeLast) / timeElapsed)
         );
@@ -76,7 +82,8 @@ contract UniswapV2Twap {
 
         if (token == token0) {
             // NOTE: using FixedPoint for *
-            // TODO: what is decode144
+            // NOTE: mul returns uq144x112
+            // NOTE: decode144 decodes uq144x112 to uint144
             amountOut = price0Average.mul(amountIn).decode144();
         } else {
             amountOut = price1Average.mul(amountIn).decode144();
